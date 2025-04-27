@@ -97,6 +97,18 @@ void AControllerPawn::Move(const FInputActionValue& Value)
 	}
 }
 
+void AControllerPawn::Zoom(const FInputActionValue& Value)
+{
+	const float ZoomDirection = Value.Get<float>();
+	if (Controller!=nullptr)
+	{
+		float DesiredFOV = CameraComponent->FieldOfView - ZoomDirection * CameraZoomSpeed;
+		DesiredFOV = FMath::Clamp(DesiredFOV, CameraMinZoom, CameraMaxZoom);
+
+		CameraComponent->SetFieldOfView(DesiredFOV);
+	}
+}
+
 // Called every frame
 void AControllerPawn::Tick(float DeltaTime)
 {
@@ -118,10 +130,11 @@ void AControllerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
 	{
-		//bind move function to move input action
+		//bind a move function to move input action
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AControllerPawn::Move);
+
+		//bind a zoom function to zoom input action
+		EnhancedInputComponent->BindAction(ZoomAction, ETriggerEvent::Triggered, this, &AControllerPawn::Zoom);
 	}
-
-
 }
 

@@ -22,23 +22,35 @@ class RTSUTILLS_API AControllerPawn : public APawn
 	private:
 	//Capsule component
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Collision, meta = (AllowPrivateAccess = "true")) // meta = (AllowPrivateAccess = "true")) this makes Blueprints able to see this
-	UCapsuleComponent* CapsuleComponent;
+	TObjectPtr<UCapsuleComponent> CapsuleComponent;
 
 	//Camera component
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Collision, meta = (AllowPrivateAccess = "true"))
-	UCameraComponent* CameraComponent;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UCameraComponent> CameraComponent;
+
+	//Camera properties
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	float CameraZoomSpeed = 0.2f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	float CameraMaxZoom = 200.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	float CameraMinZoom = 3.0f;
 
 	//Spring arm component
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Collision, meta = (AllowPrivateAccess = "true"))
-	USpringArmComponent* SpringArmComponent;
+	TObjectPtr<USpringArmComponent> SpringArmComponent;
 
 	//Adding input Action
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction* MoveAction;
+	TObjectPtr<UInputAction> MoveAction;
+
+	//Adding input Action
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Input, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UInputAction> ZoomAction; //smart pointer
 
 	//Add a floating pawn movement component
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
-	UFloatingPawnMovement* FloatingPawnMovement;
+	TObjectPtr<UFloatingPawnMovement> FloatingPawnMovement;
 	
 public:
 	// Sets default values for this pawn's properties
@@ -50,6 +62,10 @@ protected:
 
 	//Called for move input
 	void Move(const FInputActionValue& Value);
+
+	//Called for zoom action
+	void Zoom(const FInputActionValue& Value);
+	
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
