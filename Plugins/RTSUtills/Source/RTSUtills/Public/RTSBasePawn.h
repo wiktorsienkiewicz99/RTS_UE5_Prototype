@@ -6,6 +6,7 @@
 #include "GameFramework/Pawn.h"
 #include "RTSBasePawn.generated.h"
 
+//forward declaration section
 class UFloatingPawnMovement;
 class UCapsuleComponent;
 class USkeletalMeshComponent;
@@ -14,9 +15,12 @@ UCLASS()
 class RTSUTILLS_API ARTSBasePawn : public APawn
 {
 	GENERATED_BODY()
-
+	
+public:
+	// Sets default values for this pawn's properties
+	ARTSBasePawn();
 private:
-	//Capsule component\
+	//Capsule component
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Collision, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UCapsuleComponent> CapsuleComponent;
 
@@ -27,10 +31,6 @@ private:
 	//Floating Pawn Movement
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Pawn, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UFloatingPawnMovement> FloatingPawnMovement;
-	
-public:
-	// Sets default values for this pawn's properties
-	ARTSBasePawn();
 
 protected:
 	// Called when the game starts or when spawned
